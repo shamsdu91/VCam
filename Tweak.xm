@@ -17,12 +17,13 @@ static UIButton *g_floatButton = nil;
 
 @implementation VCamOverlayWindow
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    UIView *hitView = [super hitTest:point withEvent:event];
-    if (hitView == g_floatButton || [hitView isDescendantOfView:g_floatButton]) {
-        return hitView;
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    if (!g_floatButton || g_floatButton.hidden || g_floatButton.alpha <= 0.01) {
+        return NO;
     }
-    return nil;
+
+    CGPoint buttonPoint = [g_floatButton convertPoint:point fromView:self];
+    return [g_floatButton pointInside:buttonPoint withEvent:event];
 }
 
 @end
