@@ -18,6 +18,11 @@ static UIButton *g_floatButton = nil;
 @implementation VCamOverlayWindow
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    // Presented menus and pickers must receive touches across the window.
+    if (self.rootViewController.presentedViewController) {
+        return [super pointInside:point withEvent:event];
+    }
+
     if (!g_floatButton || g_floatButton.hidden || g_floatButton.alpha <= 0.01) {
         return NO;
     }
